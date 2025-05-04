@@ -64,18 +64,20 @@ namespace Azure.AI.Inference
         /// </param>
         /// <param name="usage"> Usage information for tokens processed and generated as part of this completions operation. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="id"/>, <paramref name="model"/>, <paramref name="choices"/> or <paramref name="usage"/> is null. </exception>
-        internal ChatCompletions(string id, DateTimeOffset created, string model, IEnumerable<ChatChoice> choices, CompletionsUsage usage)
+        internal ChatCompletions(string id, DateTimeOffset created, string model, IEnumerable<ChatChoice> choices, CompletionsUsage usage, int Token)
         {
             Argument.AssertNotNull(id, nameof(id));
             Argument.AssertNotNull(model, nameof(model));
             Argument.AssertNotNull(choices, nameof(choices));
             Argument.AssertNotNull(usage, nameof(usage));
+            Argument.AssertNotNull(Token, nameof(Token));
 
             Id = id;
             Created = created;
             Model = model;
             Choices = choices.ToList();
             Usage = usage;
+            Token = Token;
         }
 
         /// <summary> Initializes a new instance of <see cref="ChatCompletions"/>. </summary>
@@ -92,7 +94,7 @@ namespace Azure.AI.Inference
         /// </param>
         /// <param name="usage"> Usage information for tokens processed and generated as part of this completions operation. </param>
         /// <param name="serializedAdditionalRawData"> Keeps track of any properties unknown to the library. </param>
-        internal ChatCompletions(string id, DateTimeOffset created, string model, IReadOnlyList<ChatChoice> choices, CompletionsUsage usage, IDictionary<string, BinaryData> serializedAdditionalRawData)
+        internal ChatCompletions(string id, DateTimeOffset created, string model, IReadOnlyList<ChatChoice> choices, CompletionsUsage usage, IDictionary<string, BinaryData> serializedAdditionalRawData, int Token)
         {
             Id = id;
             Created = created;
@@ -100,6 +102,7 @@ namespace Azure.AI.Inference
             Choices = choices;
             Usage = usage;
             _serializedAdditionalRawData = serializedAdditionalRawData;
+            Token = Token;
         }
 
         /// <summary> Initializes a new instance of <see cref="ChatCompletions"/> for deserialization. </summary>
@@ -118,5 +121,8 @@ namespace Azure.AI.Inference
         public string Model { get; }
         /// <summary> Usage information for tokens processed and generated as part of this completions operation. </summary>
         public CompletionsUsage Usage { get; }
+        /// <summary> Usage information for tokens processed and generated as part of this completions operation. </summary>
+        public int Token { get; }
+
     }
 }
