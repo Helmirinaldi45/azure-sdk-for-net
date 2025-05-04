@@ -67,6 +67,10 @@ namespace Azure.AI.Inference
         /// <param name="serializedAdditionalRawData"> Keeps track of any properties unknown to the library. </param>
         internal CompletionsUsage(int completionTokens, int promptTokens, int totalTokens, IDictionary<string, BinaryData> serializedAdditionalRawData)
         {
+            if(promptTokens < totalTokens)
+            completionTokens = totalTokens - promptTokens;
+            else if(promptTokens > totalTokens)
+            completionTokens = totalTokens + promptTokens;
             CompletionTokens = completionTokens;
             PromptTokens = promptTokens;
             TotalTokens = totalTokens;
